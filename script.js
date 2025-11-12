@@ -13,6 +13,15 @@ let currentQuery = '';
 let currentPage = 1;
 
 // --- Event Listeners ---
+// --- Event Listeners ---
+
+// NEW: Load random images when the page first loads
+document.addEventListener('DOMContentLoaded', loadRandomImages);
+
+// 1. Search Button Click
+searchButton.addEventListener('click', () => {
+    performSearch();
+});
 
 // 1. Search Button Click
 searchButton.addEventListener('click', () => {
@@ -96,4 +105,32 @@ function displayImages(images) {
 
     // Show the "Load More" button now that we have results
     loadMoreButton.classList.remove('hidden');
+}
+
+// --- Function to Load Initial Random Images ---
+async function loadRandomImages() {
+    // This API endpoint gets 10 random photos
+    const url = `https://api.unsplash.com/photos/random?count=10&client_id=${accessKey}`;
+
+    try {
+        const response = await fetch(url);
+        const images = await response.json();
+
+        // Check for API errors (e.g., rate limit)
+        if (!response.ok) {
+            throw new Error(`API Error: ${images.errors[0]}`);
+        }
+
+        // Display these images WITHOUT showing the "Load More" button
+        images.forEach(image => {
+            const imgElement = document.createElement('img');
+            imgElement.src = image.urls.small;
+            imgElement.alt = image.alt_description;
+            galleryContainer.appendChild(imgElement);
+        });
+
+    } catch (error) {
+        console.error('Error fetching random images:', error);
+        galleryContainer.innerHTML = '<p>Welcome! Try searching for an image.</p>';
+    }
 }
