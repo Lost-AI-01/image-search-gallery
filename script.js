@@ -1,54 +1,99 @@
-const searchInput = document.getElementsById('searchInput');
+// Get references to ALL the HTML elements
+const searchInput = document.getElementById('searchInput');
+const searchButton = document.getElementById('searchButton');
 const galleryContainer = document.getElementById('galleryContainer');
+const loadMoreButton = document.getElementById('loadMoreButton');
 
+// !! PASTE YOUR UNSPLASH ACCESS KEY HERE !!
 const accessKey = 'd1pMWhEoi7JGL65rOhEbhYPompMWW-c_TRprM3OFvAk';
 
-searchInput.addEventListener('keydown', (Event) => {
-    if(Event.key === 'Enter'){
-        const query = searchInput.value;
-        if(query){
-            searchImages(query);
-        }
+// --- State Variables ---
+// We need to store the current query and page number
+let currentQuery = '';
+let currentPage = 1;
+
+// --- Event Listeners ---
+
+// 1. Search Button Click
+searchButton.addEventListener('click', () => {
+    performSearch();
+});
+
+// 2. "Enter" Key Press
+searchInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        performSearch();
     }
-} );
+});
 
-async function searchImages(query){
+// 3. "Load More" Button Click
+loadMoreButton.addEventListener('click', () => {
+    // Increment the page and search again
+    currentPage++;
+    searchImages(currentQuery, currentPage);
+});
+
+// --- Main Search Function ---
+function performSearch() {
+    // Get the search term
+    currentQuery = searchInput.value;
+    
+    // Check if the input is empty
+    if (currentQuery === '') {
+        galleryContainer.innerHTML = '<p>Please enter a search term.</p>';
+        return;
+    }
+
+    // This is a NEW search, so reset to page 1
+    currentPage = 1;
+    // Clear any old images from a previous search
     galleryContainer.innerHTML = '';
+    
+    // Call the function that fetches images
+    searchImages(currentQuery, currentPage);
+}
 
-const url = `https://api.unsplash.com/search/photos?query=${query}&per_page=10&client_id=${accessKey}`;
+// --- Function to Fetch from API ---
+async function searchImages(query, page) {
+    // Build the URL with the query AND the page number
+    const url = `https://api.unsplash.com/search/photos?query=${query}&page=${page}&per_page=10&client_id=${accessKey}`;
 
-    try{
+    try {
         const response = await fetch(url);
         const data = await response.json();
 
+        // Pass the results to be displayed
         displayImages(data.results);
-    
-     } catch(error){
-        console.error('error fetching images: ', error);
-        galleryContainer.innerHTML = '<p> Sorry, something went wrong.</p>';
 
+    } catch (error) {
+        console.error('Error fetching images:', error);
+        galleryContainer.innerHTML = '<p>Sorry, something went wrong.</p>';
     }
-    }
+}
 
-    function displayImages(images){
-        if(images.length === 0){
-            galleryContainer.innerHTML = '<p> No images found.</p>';
-            return;
+// --- Function to Display Images ---
+function displayImages(images) {
+    // Check if we got any results
+    if (images.length === 0) {
+        // If it was the first page, show "No images"
+        if (currentPage === 1) {
+            galleryContainer.innerHTML = '<p>No images found.</p>';
         }
-
-        images.forEach(image => {
-            const imgElement = document.createElement('img');
-
-            imgElement.src = image.urls.small;
-            imgElement.alt = image.alt_description;
-            
-            galleryContainer.appendChild(imgElement);
-        });
+        // Hide the "Load More" button if there are no more results
+        loadMoreButton.classList.add('hidden');
+        return;
     }
 
+    // Loop through each image result
+    images.forEach(image => {
+        const imgElement = document.createElement('img');
+        imgElement.src = image.urls.small;
+        imgElement.alt = image.alt_description;
 
-    
+        // Append the new <img> element (adds to the grid)
+        galleryContainer.appendChild(imgElement);
+    });
 
-
-9493602222
-
+    // Show the "Load More" button now that we have results
+    loadMoreButton.classList.remove('hidden');
+}

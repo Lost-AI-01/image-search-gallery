@@ -1,17 +1,90 @@
-body{
-    font-family: sans-serif;
-    text-align: center;
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
 }
 
-#galleryContainer{
-    display: grid;
-    grid-template-columns: repeat(auto-fir, minmax(250x, 1fr));
-    gap: 16px;
-    padding: 20%;
+h1 {
+    text-align: center;
+    color: #333;
 }
-#galleryContainer img{
+
+/* --- Search Bar & Button --- */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+#searchInput {
+    width: 300px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px 0 0 25px; /* Rounded on the left */
+    font-size: 16px;
+    outline: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#searchButton {
+    padding: 12px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border-radius: 0 25px 25px 0; /* Rounded on the right */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#searchButton:hover {
+    background-color: #0056b3;
+}
+
+/* --- Image Grid --- */
+#galleryContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+#galleryContainer img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#galleryContainer img:hover {
+    transform: scale(1.03); /* Slight zoom on hover */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* --- "Load More" Button --- */
+#loadMoreButton {
+    display: block; /* Makes it a block element */
+    margin: 30px auto; /* Centers it */
+    padding: 12px 30px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#loadMoreButton:hover {
+    background-color: #218838;
+}
+
+/* Utility class to hide the button */
+.hidden {
+    display: none;
 }

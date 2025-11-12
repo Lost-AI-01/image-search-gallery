@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>image search gallery</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    
+    <title>Image Gallery</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <h1>Image Search</h1>
-    <input type="text" id="searchInput" placeholder="Search for images...">
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search for images...">
+        <button id="searchButton">Search</button>
+    </div>
     
     <div id="galleryContainer">
         </div>
+
+    <button id="loadMoreButton" class="hidden">Load More</button>
+
     <script src="script.js"></script>
 </body>
 </html>
