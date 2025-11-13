@@ -5,14 +5,16 @@ body {
     padding-bottom: 60px; /* Add padding at the bottom for the "Load More" button */
 
     /* --- NEW GRADIENT --- */
-    background-color: #f4f4f4; /* Fallback for old browsers */
-    background-image: linear-gradient(to bottom, #f0f4f8, #ffffff); /* Subtle gradient */
+    background-color: #d37c2b; /* Fallback for old browsers */
+    background-image: linear-gradient(to bottom, #4b93db, #a03434); /* Subtle gradient */
     min-height: 100vh; /* Ensures gradient fills the whole page */
 }
 
 h1 {
     text-align: center;
     color: #333;
+    background-color: #1c74cc;
+    border-radius: 10px;
 }
 
 /* --- Search Bar & Button --- */
