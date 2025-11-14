@@ -9,10 +9,10 @@ const accessKey = 'd1pMWhEoi7JGL65rOhEbhYPompMWW-c_TRprM3OFvAk';
 
 // --- State Variables ---
 // We need to store the current query and page number
+
 let currentQuery = '';
 let currentPage = 1;
 
-// --- Event Listeners ---
 // --- Event Listeners ---
 
 // NEW: Load random images when the page first loads
